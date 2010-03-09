@@ -1123,6 +1123,7 @@ def getThermoData(struct, thermoClass=thermo.ThermoNASAData): # ThermoGAData
 	    logging.warning("Poor overall GA-to-NASA fit: Overall RMS error in heat capacity fit = %.3f*R." % (rmsErr))
 	else:
 	    logging.debug("Overall RMS error in heat capacity fit = %.3f*R" % (rmsErr))
+	logging.verbose("GregCpFitTest3: %f"%(rmsErr))
 
 	if thermoClass == thermo.ThermoNASAData:
 		return NASAthermoData
