@@ -1019,7 +1019,7 @@ def CpLimits(atoms, rotors, linear):
 	return cp0, cpInf
 
 ################################################################################
-def convertWilhoitToNASA(Wilhoit, fixed=1, weighting=1, tint=1000.0, Tmin = 298.0, Tmax=6000.0, contCons=3):
+def convertWilhoitToNASA(Wilhoit, fixed=1, weighting=0, tint=1000.0, Tmin = 298.0, Tmax=6000.0, contCons=3):
 	"""Convert a Wilhoit thermo instance into a NASA polynomial thermo instance.
 	
 	Takes: a `ThermoWilhoitData` instance of themochemical data.
