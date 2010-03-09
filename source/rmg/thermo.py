@@ -1072,7 +1072,7 @@ def convertWilhoitToNASA(Wilhoit, fixed=0, weighting=1, tint=1000.0, Tmin = 298.
 	tint=tint*1000.
 	Tmin = Tmin*1000
 	Tmax = Tmax*1000
-	logging.verbose("GregCpFitTestTint: %f"% (tintf))
+	logging.verbose("GregCpFitTestTint: %f"% (tint))
 	
 	nasa_low.c1 /= 1000.
 	nasa_low.c2 /= 1000000.
