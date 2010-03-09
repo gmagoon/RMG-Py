@@ -877,7 +877,7 @@ class ThermoWilhoitData(ThermoData):
 
 ################################################################################
 
-def convertGAtoWilhoit(GAthermo, atoms, rotors, linear, fixedB=1, Bmin=300.0, Bmax=6000.0):
+def convertGAtoWilhoit(GAthermo, atoms, rotors, linear, fixedB=0, Bmin=300.0, Bmax=6000.0):
 	"""Convert a Group Additivity thermo instance into a Wilhoit thermo instance.
 	
 	Takes a `ThermoGAData` instance of themochemical data, and some extra information 
@@ -924,7 +924,8 @@ def convertGAtoWilhoit(GAthermo, atoms, rotors, linear, fixedB=1, Bmin=300.0, Bm
 	T_list = [t*1000. for t in T_list]
 	B = B*1000.
 	Cp_list = [x*R for x in Cp_list]
-	
+	logging.verbose("GregCpFitTestB: %f"% (B))
+
 	# cp0 and cpInf should be in units of J/mol-K
 	cp0 = cp0*R
 	cpInf = cpInf*R
@@ -1019,12 +1020,12 @@ def CpLimits(atoms, rotors, linear):
 	return cp0, cpInf
 
 ################################################################################
-def convertWilhoitToNASA(Wilhoit, fixed=1, weighting=0, tint=1000.0, Tmin = 298.0, Tmax=6000.0, contCons=3):
+def convertWilhoitToNASA(Wilhoit, fixed=1, weighting=1, tint=1000.0, Tmin = 298.0, Tmax=6000.0, contCons=3):
 	"""Convert a Wilhoit thermo instance into a NASA polynomial thermo instance.
 	
 	Takes: a `ThermoWilhoitData` instance of themochemical data.
 		fixed: 1 (default) to fix tint; 0 to allow it to float to get a better fit
-		weighting: 0 (default) to not weight the fit by 1/T; 1 to weight by 1/T to emphasize good fit at lower temperatures
+		weighting: 0 to not weight the fit by 1/T; 1 (default) to weight by 1/T to emphasize good fit at lower temperatures
 		tint, Tmin, Tmax: intermediate, minimum, and maximum temperatures in Kelvin
 		contCons: a measure of the continutity constraints on the fitted NASA polynomials; possible values are:
 			    5: constrain Cp, dCp/dT, d2Cp/dT2, d3Cp/dT3, and d4Cp/dT4 to be continuous at tint; note: this effectively constrains all the coefficients to be equal and should be equivalent to fitting only one polynomial (rather than two)
