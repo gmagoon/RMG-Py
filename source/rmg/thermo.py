@@ -877,7 +877,7 @@ class ThermoWilhoitData(ThermoData):
 
 ################################################################################
 
-def convertGAtoWilhoit(GAthermo, atoms, rotors, linear, fixedB=1, Bmin=300.0, Bmax=6000.0):
+def convertGAtoWilhoit(GAthermo, atoms, rotors, linear, fixedB=0, Bmin=300.0, Bmax=6000.0):
 	"""Convert a Group Additivity thermo instance into a Wilhoit thermo instance.
 	
 	Takes a `ThermoGAData` instance of themochemical data, and some extra information 
@@ -924,7 +924,7 @@ def convertGAtoWilhoit(GAthermo, atoms, rotors, linear, fixedB=1, Bmin=300.0, Bm
 	T_list = [t*1000. for t in T_list]
 	B = B*1000.
 	Cp_list = [x*R for x in Cp_list]
-	#logging.verbose("GregCpFitTestB: %f"% (B))
+	logging.verbose("GregCpFitTestB: %f"% (B))
 
 	# cp0 and cpInf should be in units of J/mol-K
 	cp0 = cp0*R
@@ -1020,7 +1020,7 @@ def CpLimits(atoms, rotors, linear):
 	return cp0, cpInf
 
 ################################################################################
-def convertWilhoitToNASA(Wilhoit, fixed=0, weighting=1, tint=1000.0, Tmin = 298.0, Tmax=6000.0, contCons=3):
+def convertWilhoitToNASA(Wilhoit, fixed=1, weighting=1, tint=1000.0, Tmin = 298.0, Tmax=6000.0, contCons=3):
 	"""Convert a Wilhoit thermo instance into a NASA polynomial thermo instance.
 	
 	Takes: a `ThermoWilhoitData` instance of themochemical data.
@@ -1045,7 +1045,7 @@ def convertWilhoitToNASA(Wilhoit, fixed=0, weighting=1, tint=1000.0, Tmin = 298.
 	Tmax = Tmax/1000
 
 	# Make copy of Wilhoit data so we don't modify the original
-	wilhoit_scaled = ThermoWilhoitData(Wilhoit.cp0, Wilhoit.cpInf, Wilhoit.a0, Wilhoit.a1, Wilhoit.a2, Wilhoit.a3, Wilhoit.H0, Wilhoit.S0, Wilhoit.comment)
+	wilhoit_scaled = ThermoWilhoitData(Wilhoit.cp0, Wilhoit.cpInf, Wilhoit.a0, Wilhoit.a1, Wilhoit.a2, Wilhoit.a3, Wilhoit.H0, Wilhoit.S0, Wilhoit.comment, B=Wilhoit.B)
 	# Rescale Wilhoit parameters
 	wilhoit_scaled.cp0 /= constants.R
 	wilhoit_scaled.cpInf /= constants.R
@@ -1072,7 +1072,7 @@ def convertWilhoitToNASA(Wilhoit, fixed=0, weighting=1, tint=1000.0, Tmin = 298.
 	tint=tint*1000.
 	Tmin = Tmin*1000
 	Tmax = Tmax*1000
-	logging.verbose("GregCpFitTestTint: %f"% (tint))
+	#logging.verbose("GregCpFitTestTint: %f"% (tintf))
 	
 	nasa_low.c1 /= 1000.
 	nasa_low.c2 /= 1000000.
